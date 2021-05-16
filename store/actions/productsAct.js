@@ -1,4 +1,4 @@
-import Product from '../../models/product';
+//import Product from '../../models/product';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 
@@ -8,6 +8,7 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 
+let Product;
 export const fetchProducts = () => {
     return (
 

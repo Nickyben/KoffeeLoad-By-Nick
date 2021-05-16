@@ -32,7 +32,7 @@ if (Platform.OS === 'ios') {
 }
 
 const defaultNavOptions = {
-	headerTitle: 'Shopping App',
+	headerTitle: 'KoffeeLoad',
 	headerTitleStyle: {
 		fontFamily: 'OpenSansBold',
 	},
@@ -42,10 +42,12 @@ const defaultNavOptions = {
 		fontFamily: 'OpenSansRegular',
 	},
 	headerStyle: {
-		backgroundColor: Colors.switchPrimary,
+		backgroundColor: Colors.primary,
+		borderBottomWidth: 0,
+        borderBottomColor:'transparent',
 	},
-	headerTintColor: Colors.switchWhite,
-	headerTitleAlign: 'center',
+	headerTintColor: Colors.white,
+	headerTitleAlign: 'left',
 };
 
 const defaultTabStacksOpts = ({ route }) => ({
@@ -54,9 +56,7 @@ const defaultTabStacksOpts = ({ route }) => ({
 		let iconSize;
 		if (route.name === 'Home') {
 			iconName = 'md-home';
-		} else if (route.name === 'Shop') {
-			iconName = 'md-basket';
-		} else if (route.name === 'Account') {
+		}  else if (route.name === 'Account') {
 			iconName = 'md-person';
 		}
 		//else if (route.name === 'Home') {
@@ -74,7 +74,7 @@ const defaultTabStacksOpts = ({ route }) => ({
 
 const HomeStackNav = createStackNavigator();
 
-const ProductsStackNavigator = () => {
+const HomeStackNavigator = () => {
 	return (
 		<HomeStackNav.Navigator screenOptions={defaultNavOptions}>
 			<HomeStackNav.Screen
@@ -135,14 +135,11 @@ export const KoffeeLoadTabNavigator = () => {
 				inactiveTintColor: '#888',
 				activeBackgroundColor: 'white',
 				labelPosition: 'below-icon',
-				//showLabel: false, //Platform.OS !== 'android',
 				keyboardHidesTabBar: true,
 				style: {
 					height: 56,
 				},
-				// tabStyle: {
-
-				// },
+                
 				labelStyle: {
 					fontFamily: 'OpenSansBold',
 					fontSize: 12,
@@ -152,7 +149,7 @@ export const KoffeeLoadTabNavigator = () => {
 					//paddingBottom: 2,
 				},
 			}}>
-			<KoffeeLoadTabNav.Screen name="Home" component={ProductsStackNavigator} />
+			<KoffeeLoadTabNav.Screen name="Home" component={HomeStackNavigator} />
 			<KoffeeLoadTabNav.Screen
 				name="Shop"
 				component={OrdersStackNavigator}
@@ -161,7 +158,11 @@ export const KoffeeLoadTabNavigator = () => {
 						return (
 							<Image
 								style={styles.iconProfileImg}
-								source={!focused ? require('../assets/shopIcon.png') : require('../assets/shopIconActive.png')}
+								source={
+									!focused
+										? require('../assets/shopIcon.png')
+										: require('../assets/shopIconActive.png')
+								}
 							/>
 						);
 					},
@@ -240,7 +241,7 @@ export const ShopDrawerNavigator = () => {
 			}}>
 			<ShopDrawerNav.Screen
 				name="ProductsStack"
-				component={ProductsStackNavigator}
+				component={HomeStackNavigator}
 				options={{
 					//can also be set in the 2nd arg of this stack' s create func
 					drawerLabel: 'Products',
@@ -292,7 +293,6 @@ export const ShopDrawerNavigator = () => {
 
 const styles = StyleSheet.create({
 	iconProfileImg: {
-       
 		overflow: 'hidden',
 		borderRadius: 12,
 		width: 24,

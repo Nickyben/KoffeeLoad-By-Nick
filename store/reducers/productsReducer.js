@@ -1,6 +1,7 @@
-import PRODUCTS from '../../data/productData';
+import COFFEE_PRODUCTS from '../../data/coffeeProductData';
 import { DELETE_PRODUCT, CREATE_PRODUCT, EDIT_PRODUCT, SET_PRODUCTS } from '../actions/productsAct';
-import Product from '../../models/product';
+//import Product from '../../models/product';
+let Product;
 
 const initialState = {
     availableProducts: [], //PRODUCTS :(,
