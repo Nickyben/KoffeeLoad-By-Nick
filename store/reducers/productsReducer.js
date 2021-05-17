@@ -4,8 +4,8 @@ import { DELETE_PRODUCT, CREATE_PRODUCT, EDIT_PRODUCT, SET_PRODUCTS } from '../a
 let Product;
 
 const initialState = {
-    availableProducts: [], //PRODUCTS :(,
-    userProducts: [], //PRODUCTS.filter(prod => prod.ownerId === 'u1'),
+	availableProducts: COFFEE_PRODUCTS, // []PRODUCTS :(,
+	userProducts: [], //PRODUCTS.filter(prod => prod.ownerId === 'u1'),
 };
 
 export default (state = initialState, action) => {

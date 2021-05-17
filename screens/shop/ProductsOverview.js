@@ -23,50 +23,51 @@ import * as prodActions from '../../store/actions/productsAct';
 import Colors from '../../constants/Colors';
 import TouchIcon from '../../components/UI/TouchIcon';
 import TouchCard from '../../components/UI/TouchCard';
+import CoffeeItem from '../../components/shopComponents/CoffeeItem';
+import Btn from '../../components/UI/Btn';
+import Touch from '../../components/UI/Touch';
+import MyBtn from '../../components/UI/MyBtn';
 
-
-
-
-
-
-
-const ProductsOverviewScreen = ({props, navigation}) => {
+const ProductsOverviewScreen = ({ props, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const products = useSelector((state) => state.productsRed.availableProducts);
-	const dispatch = useDispatch();
-	const loadProducts = useCallback(async () => {
-		setError(null);
-		setIsRefreshing(true);
-		try {
-			await dispatch(prodActions.fetchProducts());
-		} catch (err) {
-			setError(err.message);
-		}
-		setIsRefreshing(false);
-	}, [dispatch, setError]); //setIsLoading is handled already by react,
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', loadProducts);
-
-		//clean up function to run when effect is about to rerun or when component is destroyed
-		return () => {
-			unsubscribe();
-		};
-	}, [loadProducts]);
-
-	useEffect(
-		//will run only when the component load and not again
-		//don't use async keyword here, instead, use .then() after the dispatch()
-		() => {
-			setIsLoading(true);
-			loadProducts().then(() => {
-				setIsLoading(false);
-			});
-		},
-		[dispatch, loadProducts]
+	const topSellingCoffees = useSelector((state) => state.productsRed.availableProducts).filter(
+		(cof) => cof.isTopSelling === true
 	);
+	console.log(topSellingCoffees);
+	const dispatch = useDispatch();
+	// const loadProducts = useCallback(async () => {
+	// 	setError(null);
+	// 	setIsRefreshing(true);
+	// 	try {
+	// 		await dispatch(prodActions.fetchProducts());
+	// 	} catch (err) {
+	// 		setError(err.message);
+	// 	}
+	// 	setIsRefreshing(false);
+	// }, [dispatch, setError]); //setIsLoading is handled already by react,
+
+	// useEffect(() => {
+	// 	const unsubscribe = navigation.addListener('focus', loadProducts);
+
+	// 	//clean up function to run when effect is about to rerun or when component is destroyed
+	// 	return () => {
+	// 		unsubscribe();
+	// 	};
+	// }, [loadProducts]);
+
+	// useEffect(
+	// 	//will run only when the component load and not again
+	// 	//don't use async keyword here, instead, use .then() after the dispatch()
+	// 	() => {
+	// 		setIsLoading(true);
+	// 		loadProducts().then(() => {
+	// 			setIsLoading(false);
+	// 		});
+	// 	},
+	// 	[dispatch, loadProducts]
+	// );
 
 	const selectItemHandler = (id, title) => {
 		navigation.navigate({
@@ -78,18 +79,18 @@ const ProductsOverviewScreen = ({props, navigation}) => {
 		});
 	};
 
-	 const renderItem = (
-			category,
-			{ item } //auto gets data in obj form , I deStructured it in params
-		) => (
-			<_Item
-				content={item}
-				category={category}
-				onSelect={() => {
-					navigation.navigate('DeptDetails', { itemId: item.id, title: item.constructor.name });
-				}}
-			/>
-		);
+	const renderItem = (
+		category,
+		{ item } //auto gets data in obj form , I deStructured it in params
+	) => (
+		<CoffeeItem
+			content={item}
+			category={category}
+			onSelect={() => {
+				navigation.navigate('DeptDetails', { itemId: item.id, title: item.constructor.name });
+			}}
+		/>
+	);
 
 	// if (error) {
 	// 	return (
@@ -126,7 +127,7 @@ const ProductsOverviewScreen = ({props, navigation}) => {
 	// }
 
 	return (
-		<ScrollView style={styles.screen}>
+		<ScrollView style={styles.screen} showsVerticalScrollIndicator={false}>
 			<View style={styles.welcomeRow}>
 				<Text style={styles.welcomeText}>Welcome Adedire</Text>
 				<TouchIcon name={'cart'} size={25} />
@@ -145,27 +146,30 @@ const ProductsOverviewScreen = ({props, navigation}) => {
 					life's simple pleasures delivered right to your doorstep.
 				</Text>
 			</View>
-			
-			<View style={styles.row}>
-				<View style={styles.imageContainer2}>
-				<ImageBackground source={require('../../assets/images/img2.png')} style={styles.image2}>
-					<Text style={styles.ourCoffee}>Our Coffee</Text>
-				</ImageBackground>
-			</View>
-			</View>
-			
 
 			<View style={styles.row}>
+				<View style={styles.imageContainer2}>
+					<ImageBackground source={require('../../assets/images/img2.png')} style={styles.image2}>
+						<Text style={styles.ourCoffee}>Our Coffee</Text>
+					</ImageBackground>
+				</View>
+			</View>
+
+			<View style={styles.row2}>
 				<Text style={styles.rowLabel}>Top Selling Coffee</Text>
 				<FlatList
 					showsHorizontalScrollIndicator={false}
 					//initialNumToRender, refreshing
 					keyExtractor={(item, index) => item.id}
-					data={[]}
+					data={topSellingCoffees}
 					renderItem={renderItem.bind(this, 'coffee')}
 					horizontal={true}
 					contentContainerStyle={styles.listContainer}
+					style={styles.flatListStyle}
 				/>
+			</View>
+			<View style={styles.action}>
+				<MyBtn title={'Create a Coffee Plan'} />
 			</View>
 		</ScrollView>
 	);
@@ -243,7 +247,11 @@ const styles = StyleSheet.create({
 		padding: 10,
 		// backgroundColor: 'red',
 	},
+	row2: {
+		width: '100%',
+	},
 	rowLabel: {
+		marginTop: 10,
 		fontFamily: 'OpenSansBold',
 		fontSize: 14,
 		color: '#222',
@@ -283,53 +291,19 @@ const styles = StyleSheet.create({
 	},
 	listContainer: {
 		paddingVertical: 15,
-		paddingLeft: 20,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+	},
+	flatListStyle: {},
+	action: {
+		alignItems: 'center',
 	},
 });
 
 export default ProductsOverviewScreen;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			{
-				/* <FlatList
+{
+	/* <FlatList
 				onRefresh={loadProducts}
 				refreshing={isRefreshing}
 				data={products}
@@ -360,4 +334,4 @@ export default ProductsOverviewScreen;
 					</ProductItem>
 				)}
 			/> */
-			}
+}
