@@ -38,7 +38,8 @@ const ChatInput = ({
 
 	const textChangeHandler = (text) => {
 		//console.log(text);
-		const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const emailRegex =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		const emailText = text.toLowerCase();
 
 		const phoneNumberRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -87,7 +88,7 @@ const ChatInput = ({
 
 	const gainedFocusHandler = () => {};
 
-	const msgPushHandler =  () => {
+	const msgPushHandler = () => {
 		onSubmit(chatInputState.value, () => setChatInputState((p) => ({ value: '', validity: false })));
 	};
 
@@ -111,27 +112,21 @@ const ChatInput = ({
 				bgBorderRadius: leftIconBgBorderRadius,
 		  };
 
+		
 	return (
 		<SafeAreaView
-			style={{
-				...styles.typingContainer,
-				position: defaultPosition ? 'relative' : 'absolute',
-				bottom: defaultPosition ? 'auto' : 0,
-				...elevateStyle,
-				...style,
-			}}>
-			{
-
-			}
+			style={
+				({
+					position: defaultPosition ? 'relative' : 'absolute',
+					bottom: defaultPosition ? 'auto' : 0,
+				},
+				[styles.typingContainer, elevateStyle, style])
+			}>
+			{}
 			<View style={styles.formControl}>
-				<View
-					style={{
-						...styles.inputContainer,
-						paddingBottom: 0,
-						...styles.inputContainerStyle,
-					}}>
+				<View style={{ paddingBottom: 0 }, [styles.inputContainer,styles.inputContainerStyle]}>
 					{!hideIcon && (
-						<View style={{ marginLeft: 10 }}>
+						<View style={{ marginLeft: 10,  }}>
 							<ItemIcon
 								onTouch={icon && icon.touchable && icon.onTouch}
 								bgColor={icon.bgColor || Colors.primary + '22'}
@@ -148,8 +143,13 @@ const ChatInput = ({
 						keyboardType={email ? 'email-address' : phoneNumber ? 'phone-pad' : 'default'}
 						secureTextEntry={!!password}
 						placeholder={placeholder ? placeholder : 'Start typing message'}
-						style={{ ...styles.input, ...inputStyle,
-						 maxHeight:!others.multiline? 50:expandHeight?expandHeight: 200	, minHeight: 50  }}
+						style={
+							(
+							{
+								maxHeight: !others.multiline ? 70 : expandHeight ? expandHeight : 200,
+								minHeight: 70,
+							},[styles.input, inputStyle])
+						}
 						value={chatInputState.value}
 						maxLength={maxLength}
 						onChangeText={textChangeHandler}
@@ -182,16 +182,16 @@ const ChatInput = ({
 const styles = StyleSheet.create({
 	typingContainer: {
 		alignSelf: 'flex-end',
-		backgroundColor: 'white',
+		//backgroundColor: 'white',
 		//height: 60,
 		width: '100%',
-	//	position: 'absolute',
-	//	bottom: 0,
+		//	position: 'absolute',
+		//	bottom: 0,
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingVertical: 7,
-		padding: 10, 
+		padding: 10,
 		//	backgroundColor: 'blue',
 
 		//borderTopWidth: 1,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
 	},
 
 	formControl: {
-	//	backgroundColor: 'yellow',
+		//	backgroundColor: 'yellow',
 		flex: 1,
 		//width: '89%',
 
@@ -207,25 +207,26 @@ const styles = StyleSheet.create({
 		//height: '100%',
 	},
 	inputContainer: {
-		backgroundColor: '#f7fafb',
-			//backgroundColor: 'red',
+		backgroundColor: '#fff',
+		//backgroundColor: 'red',
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderBottomColor: '#bbb',
-		paddingBottom: 8,
-		borderRadius: 20,
+		borderRadius: 10,
 		overflow: 'hidden',
 		borderBottomWidth: 0,
-	//	height: '100%',
+		//	height: '100%',
 	},
 	inputContainerStyle: {},
 	input: {
 		flex: 1,
+		width: '100%',
+		height: '100%',
 		paddingHorizontal: 10,
 		fontFamily: 'OpenSansRegular',
-		fontSize: 18,
-		//backgroundColor: 'blue',
-	
+		fontSize: 12,
+		lineHeight: 20,
+		color:Colors.primary
 	},
 	submitMsgAction: {
 		width: '10%',

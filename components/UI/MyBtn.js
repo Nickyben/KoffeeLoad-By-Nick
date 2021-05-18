@@ -34,6 +34,8 @@ const MyBtn = ({
 	return (
 		<Touch
 			style={{
+				width: '100%',
+				alignItems: 'center',
 				backgroundColor: bgColor ? bgColor : 'white',
 				padding:padding?padding: 10,
 				borderRadius: 5,

@@ -18,15 +18,25 @@ import TouchCard from '../UI/TouchCard';
 
 const CoffeeItem = ({
 	content: { id, ownerId, devicePushToken, title, image, description, price },
-	category,
+	category,width,flex,backgroundColor,
 	onSelect,
 }) => {
-	let titleStyle = { ...styles.title };
+	let titleStyle = styles.title ;
 
 	return (
 		<TouchCard useIos onTouch={onSelect} style={styles.itemCard}>
 			<View style={styles.itemMargin}>
-				<View style={styles.itemContainer}>
+				<View
+					style={{
+						flex:flex?flex: 1,
+						width:width?width: '100%',
+						//height: '100%',
+						alignItems: 'center',
+						justifyContent: 'center',
+						paddingBottom: 10,
+						backgroundColor:backgroundColor?backgroundColor: '#E4D4C8',
+						borderRadius: 10,
+					}}>
 					<View style={styles.imageContainer}>
 						<Image style={styles.listImage} source={image} />
 					</View>
@@ -53,7 +63,7 @@ const CoffeeItem = ({
 							fontSize={12}
 							fontFamily={'OpenSansRegular'}
 							style={styles.btn}
-							bgColor={'#523a28'}
+							bgColor={Colors.btn}
 							borderColor={Colors.primary}
 							onPress={onSelect}
 							textColor={Colors.primary}
@@ -74,18 +84,18 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 	},
 	itemMargin: {
+		width: '100%',
+		//height: '100%',
 		paddingHorizontal: 5,
+
 	},
 	itemContainer: {
-		width: '100%',
-		height: '100%',
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingBottom: 10,
-		backgroundColor: '#E4D4C8',
-		borderRadius: 10,
+	
 	},
 	imageContainer: {
+		//aspectRatio: 9/7,
+		width: '100%',
+	
 		padding: 5,
 		paddingVertical: 10,
 		paddingBottom: 0,
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
 	infoContainer: {
 		//flex: 1,
 		width: '100%',
-		marginTop: 10,
+		marginTop: 0,
 		//paddingBottom: 10,
 		alignItems: 'center',
 	},
@@ -103,17 +113,21 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: 5,
 		paddingHorizontal: 0,
+		paddingTop:0,
 	},
 	listImage: {
-		width: 90, //please please, set these with respect to window size
-		height: 70,
+		minWidth: 90, //please please, set these with respect to window size
+		minHeight: 70,
+		width: '100%',
+		height: 'auto',
 		borderRadius: 10,
+		//aspectRatio: 9/7
 		//borderWidth: 2,
 	},
 	title: {
 		fontFamily: 'OpenSansBold',
 		fontSize: 12,
-		color: '#22f',
+		color: '#222',
 	},
 	title2: {
 		fontFamily: 'OpenSansRegular',

@@ -10,10 +10,12 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons';
 
 import CartScreen, { screenOptions as cartScreenOptions } from '../screens/shop/CartScreen';
-import ProductOverviewScreen, { screenOptions as prodsScreenOptions } from '../screens/shop/ProductsOverview';
+import HomeScreen, { screenOptions as homeScreenOptions } from '../screens/shop/HomeScreen';
 import ProductDetailScreen, { screenOptions as prodDetailScreenOptions } from '../screens/shop/ProductDetails';
 import OrdersScreen, { screenOptions as ordersScreenOptions } from '../screens/shop/OrdersScreen';
+import CoffeeShopScreen, { screenOptions as coffeeShopScreenOptions } from '../screens/shop/CoffeeShopScreen';
 import UserProductsScreen, { screenOptions as userProdsScreenOptions } from '../screens/user/UserProductsScreen';
+import AccountScreen, { screenOptions as accountScreenOptions } from '../screens/user/AccountScreen';
 import EditProductScreen, { screenOptions as editProdScreenOptions } from '../screens/user/EditProductScreen';
 import Colors from '../constants/Colors';
 import AuthScreen, { screenOptions as authScreenOptions } from '../screens/user/AuthScreen';
@@ -77,11 +79,7 @@ const HomeStackNav = createStackNavigator();
 const HomeStackNavigator = () => {
 	return (
 		<HomeStackNav.Navigator screenOptions={defaultNavOptions}>
-			<HomeStackNav.Screen
-				name="ProductOverview"
-				component={ProductOverviewScreen}
-				options={prodsScreenOptions}
-			/>
+			<HomeStackNav.Screen name="HomeScreen" component={HomeScreen} options={homeScreenOptions} />
 			<HomeStackNav.Screen
 				name="ProductDetail"
 				component={ProductDetailScreen}
@@ -102,6 +100,20 @@ const OrdersStackNavigator = () => {
 	);
 };
 
+const CoffeeShopStackNav = createStackNavigator();
+const CoffeeShopStackNavigator= () => {
+	return (
+		<CoffeeShopStackNav.Navigator screenOptions={defaultNavOptions}>
+			<CoffeeShopStackNav.Screen
+				name="CoffeeShop"
+				component={CoffeeShopScreen}
+				options={coffeeShopScreenOptions}
+			/>
+		</CoffeeShopStackNav.Navigator>
+	);
+};
+
+
 const AdminStackNav = createStackNavigator();
 
 const AdminStackNavigator = () => {
@@ -110,6 +122,17 @@ const AdminStackNavigator = () => {
 			<AdminStackNav.Screen name="UserProducts" component={UserProductsScreen} options={userProdsScreenOptions} />
 			<AdminStackNav.Screen name="EditProduct" component={EditProductScreen} options={editProdScreenOptions} />
 		</AdminStackNav.Navigator>
+	);
+};
+
+const AccountStackNav = createStackNavigator();
+
+const AccountStackNavigator = () => {
+	return (
+		<AccountStackNav.Navigator screenOptions={defaultNavOptions}>
+			<AccountStackNav.Screen name="UserProducts" component={AccountScreen} options={accountScreenOptions} />
+			<AccountStackNav.Screen name="EditProduct" component={EditProductScreen} options={editProdScreenOptions} />
+		</AccountStackNav.Navigator>
 	);
 };
 
@@ -128,7 +151,7 @@ const KoffeeLoadTabNav = createBottomTabNavigator();
 export const KoffeeLoadTabNavigator = () => {
 	return (
 		<KoffeeLoadTabNav.Navigator
-			initialRouteName="Home"
+			initialRouteName="Account"
 			screenOptions={defaultTabStacksOpts}
 			tabBarOptions={{
 				activeTintColor: '#000',
@@ -139,7 +162,7 @@ export const KoffeeLoadTabNavigator = () => {
 				style: {
 					height: 56,
 				},
-                
+
 				labelStyle: {
 					fontFamily: 'OpenSansBold',
 					fontSize: 12,
@@ -152,7 +175,7 @@ export const KoffeeLoadTabNavigator = () => {
 			<KoffeeLoadTabNav.Screen name="Home" component={HomeStackNavigator} />
 			<KoffeeLoadTabNav.Screen
 				name="Shop"
-				component={OrdersStackNavigator}
+				component={CoffeeShopStackNavigator}
 				options={{
 					tabBarIcon: ({ focused, tintColor }) => {
 						return (
@@ -168,7 +191,7 @@ export const KoffeeLoadTabNavigator = () => {
 					},
 				}}
 			/>
-			<KoffeeLoadTabNav.Screen name="Account" component={AdminStackNavigator} />
+			<KoffeeLoadTabNav.Screen name="Account" component={AccountStackNavigator} />
 		</KoffeeLoadTabNav.Navigator>
 	);
 };
@@ -294,7 +317,7 @@ export const ShopDrawerNavigator = () => {
 const styles = StyleSheet.create({
 	iconProfileImg: {
 		overflow: 'hidden',
-		borderRadius: 12,
+		// borderRadius: 12,
 		width: 24,
 		height: 24,
 		resizeMode: 'contain',

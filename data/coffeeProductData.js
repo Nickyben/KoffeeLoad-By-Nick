@@ -4,7 +4,7 @@ const COFFEE_PRODUCTS = [
 	new CoffeeProduct({
 		id: 'GRAMHKPODS-1',
 		title: 'Cappuccino',
-    topSelling: true,
+		topSelling: true,
 		price: '20.00',
 		image: require('../assets/images/Cappuccino.png'),
 		description:
@@ -31,7 +31,7 @@ const COFFEE_PRODUCTS = [
 		title: 'C. Macchiatto',
 		price: '20.00',
 		image: require('../assets/images/C. Macchiatto.png'),
-    topSelling: true,
+		topSelling: true,
 		description:
 			'From the volcanic Kona region with unique weather conditions, Hawaii Kona coffee has a delicate sweet taste, with hints of berry-like chocolatey aromas.',
 	}),
@@ -62,7 +62,7 @@ const COFFEE_PRODUCTS = [
 	new CoffeeProduct({
 		id: 'GRAMHKPODS-8',
 		title: 'Corretto',
-    topSelling: true,
+		topSelling: true,
 		price: '25.00',
 		image: require('../assets/images/Corretto.png'),
 		description:
@@ -70,6 +70,8 @@ const COFFEE_PRODUCTS = [
 	}),
 	new CoffeeProduct({
 		id: 'GRAMHKPODS-9',
+		topSelling: true,
+
 		title: 'HAWAII KONA',
 		price: '35.00',
 		image: require('../assets/images/HAWAII KONA.png'),
