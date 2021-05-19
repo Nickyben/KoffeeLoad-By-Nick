@@ -20,7 +20,7 @@ const CartItem = props => {
             </View>
             <View style={styles.cartDetail}>
                 <Text style={styles.mainText}>${props.amount.toFixed(2)}  </Text>
-                {props.canDelete && 
+                {props.canDelete &&
                     <Touch onPress={props.onDelete} style={styles.deleteBtn}>
                         <Ionicons
                             name={trashIcon}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     deleteBtn: {
         marginLeft: 20,
-        padding: 0,
+
     },
 
 });

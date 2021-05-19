@@ -38,7 +38,7 @@ const MyBtn = ({
 				alignItems: 'center',
 				backgroundColor: bgColor ? bgColor : 'white',
 				padding:padding?padding: 10,
-				borderRadius: 5,
+				borderRadius: 7,
 				paddingHorizontal: horizPadding ? horizPadding : 20,
 			}}>
 			<Text

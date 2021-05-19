@@ -1,23 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 //React navigation version 5
 import { NavigationContainer } from '@react-navigation/native';
 
-import { ShopDrawerNavigator, AuthNavigator, KoffeeLoadTabNavigator} from './ShopNavigator';
+import { ShopDrawerNavigator, AuthNavigator, KoffeeLoadTabNavigator } from './ShopNavigator';
 import StartupScreen from '../screens/StartupScreen';
+import LogoScreen2 from '../screens/LogoScreen2';
 
-const AppNavigator = props => {
-    const isAuth =true// useSelector(state => !!state.authRed.idToken);
-    const didTryAutoLogin = useSelector(state => !!state.authRed.didTryAutoLogin);
+const AppNavigator = (props) => {
+	const [isLoadingApp, setIsLoadingApp] = useState(true);
+	const isAuth = isLoadingApp === false; // useSelector(state => !!state.authRed.idToken);
+	const didTryAutoLogin = useSelector((state) => !!state.authRed.didTryAutoLogin);
 
-    return (
+	return (
 		<NavigationContainer>
-			{/* {isAuth && <ShopDrawerNavigator />} */}
+			{isLoadingApp && <LogoScreen2 />}
+
 			{isAuth && <KoffeeLoadTabNavigator />}
 
-			{!isAuth && didTryAutoLogin && <AuthNavigator />}
-			{!isAuth && !didTryAutoLogin && <StartupScreen />}
+			{!isLoadingApp && !isAuth && didTryAutoLogin && <AuthNavigator />}
+			{!isLoadingApp && !isAuth && !didTryAutoLogin && <StartupScreen />}
 		</NavigationContainer>
 	);
 };

@@ -96,7 +96,7 @@ const CoffeeShopScreen = ({ props, navigation }) => {
 				content={item}
 				category={category}
 				onSelect={() => {
-					navigation.navigate('DeptDetails', { itemId: item.id, title: item.constructor.name });
+					navigation.navigate('CoffeeDetail', { itemId: item.id, title: item.constructor.name });
 				}}
 			/>
 		</View>
@@ -249,14 +249,7 @@ const styles = StyleSheet.create({
 		color: '#222',
 		// padding: 10,
 	},
-	imageContainer: {
-		width: '100%',
-		height: 134,
-		borderRadius: 10,
-		overflow: 'hidden',
-		padding: 10,
-		// backgroundColor: 'red',
-	},
+	
 	imageContainer2: {
 		width: '100%',
 		height: 96,
@@ -264,13 +257,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		// backgroundColor: 'red',
 	},
-	logoContainer: {
-		width: 142,
-		height: 26,
-		// backgroundColor: 'blue',
-		alignItems: 'center',
-		paddingVertical: 5,
-	},
+	
 	row: {
 		width: '100%',
 		padding: 10,

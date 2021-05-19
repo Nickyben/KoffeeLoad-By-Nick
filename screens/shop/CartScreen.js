@@ -12,6 +12,8 @@ import HeaderBtn from '../../components/UI/HeaderBtn';
 import * as cartActions from '../../store/actions/cartAction';
 import * as ordersActions from '../../store/actions/ordersAction';
 import TouchIcon from '../../components/UI/TouchIcon';
+import MyBtn from '../../components/UI/MyBtn';
+import TopRecentCoffees from '../../components/shopComponents/TopRecentCoffees';
 
 const CartScreen = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,7 @@ const CartScreen = (props) => {
 		console.log('dispatched order with cartItems');
 		setIsLoading(false);
 	};
-	const shopCoffees = useSelector((state) => state.productsRed.availableProducts);
+	const shopCoffees = useSelector((state) => state.productsRed.availableProducts).filter((coffee,index)=>(index===0 || index===3));
 	const arrangeRow = { flexDirection: 'row', alignItems: 'center' };
 	return (
 		<View style={styles.screen}>
@@ -63,8 +65,10 @@ const CartScreen = (props) => {
 										borderBottomWidth: 1,
 									}}>
 									<Image source={image} style={{ width: 90, height: 70 }} />
-									<View style={{padding:15,}}>
-										<Text style={[styles.cartText, {fontSize:18, marginBottom: 15}]}>{title}</Text>
+									<View style={{ padding: 15 }}>
+										<Text style={[styles.cartText, { fontSize: 18, marginBottom: 15 }]}>
+											{title}
+										</Text>
 										<Text style={styles.cartText}>£{price}</Text>
 									</View>
 								</View>
@@ -81,27 +85,20 @@ const CartScreen = (props) => {
 						);
 					})}
 
-					<Card style={styles.summary}>
-						<Text style={styles.summaryText}>
-							Total: <Text style={styles.amt}>${Math.round(cartTotalAmt.toFixed(2) * 100) / 100}</Text>
-						</Text>
+					<View style={[arrangeRow, { flex: 1, justifyContent: 'space-between' }]}>
+						<Text style={[styles.cartText, {fontSize: 14}]}>Total</Text>
+						<Text style={[styles.cartText, {fontSize: 14}]}>£{cartTotalAmt? (Math.round(cartTotalAmt.toFixed(2) * 100) / 100): '40.00'}</Text>
+					</View>
+					<View style={[styles.action,{ marginBottom: 15}]}>
+						{isLoading ? (
+							<ActivityIndicator size="large" color={Colors.primary} />
+						) : (
+							<MyBtn title={'Complete Your Order'} bgColor={Colors.btn} textColor={'#fff'} />
+						)}
+					</View>
+					<TopRecentCoffees/>
 
-						<View style={styles.actions}>
-							{isLoading ? (
-								<ActivityIndicator size="large" color={Colors.primary} />
-							) : (
-								<View style={styles.buttons}>
-									<Button
-										color={Colors.primary}
-										title="Order Now"
-										disabled={isDisabled}
-										onPress={sendOrderHandler}
-									/>
-								</View>
-							)}
-						</View>
-					</Card>
-					<FlatList
+					{/* <FlatList
 						data={cartItemsArr}
 						horizontal={true}
 						keyExtractor={(item) => item.productId}
@@ -116,7 +113,7 @@ const CartScreen = (props) => {
 								canDelete={true}
 							/>
 						)}
-					/>
+					/> */}
 				</ScrollView>
 			</View>
 		</View>
@@ -161,36 +158,19 @@ const styles = StyleSheet.create({
 		color: '#222',
 		// padding: 10,
 	},
-    cartText:{
-        fontFamily: 'OpenSansBold',
+	cartText: {
+		fontFamily: 'OpenSansBold',
 		fontSize: 12,
 		color: '#222',
-    },
-	summary: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		marginBottom: 20,
-		padding: 10,
-		backgroundColor: 'white',
 	},
-	summaryText: {
-		fontFamily: 'OpenSansBold',
-		fontSize: 18,
+	
+
+	action: {
+		width: '100%',
+		marginTop: 20,
+		paddingHorizontal: 30,
 	},
-	amt: {
-		color: Colors.accent,
-		fontSize: 22,
-	},
-	actions: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-	},
-	buttons: {
-		borderRadius: 8,
-		overflow: 'hidden',
-	},
+
 	spinner: {},
 });
 

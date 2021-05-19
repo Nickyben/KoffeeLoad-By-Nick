@@ -11,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import CartScreen, { screenOptions as cartScreenOptions } from '../screens/shop/CartScreen';
 import HomeScreen, { screenOptions as homeScreenOptions } from '../screens/shop/HomeScreen';
-import ProductDetailScreen, { screenOptions as prodDetailScreenOptions } from '../screens/shop/ProductDetails';
+import CoffeeDetailScreen, { screenOptions as coffeeDetailScreenOptions } from '../screens/shop/CoffeeDetailScreen';
 import OrdersScreen, { screenOptions as ordersScreenOptions } from '../screens/shop/OrdersScreen';
 import CoffeeShopScreen, { screenOptions as coffeeShopScreenOptions } from '../screens/shop/CoffeeShopScreen';
 import UserProductsScreen, { screenOptions as userProdsScreenOptions } from '../screens/user/UserProductsScreen';
@@ -81,9 +81,9 @@ const HomeStackNavigator = () => {
 		<HomeStackNav.Navigator screenOptions={defaultNavOptions}>
 			<HomeStackNav.Screen name="HomeScreen" component={HomeScreen} options={homeScreenOptions} />
 			<HomeStackNav.Screen
-				name="ProductDetail"
-				component={ProductDetailScreen}
-				options={prodDetailScreenOptions}
+				name="CoffeeDetail"
+				component={CoffeeDetailScreen}
+				options={coffeeDetailScreenOptions}
 			/>
 			<HomeStackNav.Screen name="Cart" component={CartScreen} options={cartScreenOptions} />
 		</HomeStackNav.Navigator>
@@ -110,6 +110,11 @@ const CoffeeShopStackNavigator= () => {
 				options={coffeeShopScreenOptions}
 			/>
 			<CoffeeShopStackNav.Screen name="Cart" component={CartScreen} options={cartScreenOptions} />
+			<CoffeeShopStackNav.Screen
+				name="CoffeeDetail"
+				component={CoffeeDetailScreen}
+				options={coffeeDetailScreenOptions}
+			/>
 		</CoffeeShopStackNav.Navigator>
 	);
 };

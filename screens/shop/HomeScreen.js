@@ -27,14 +27,13 @@ import CoffeeItem from '../../components/shopComponents/CoffeeItem';
 import Btn from '../../components/UI/Btn';
 import Touch from '../../components/UI/Touch';
 import MyBtn from '../../components/UI/MyBtn';
+import TopRecentCoffees from '../../components/shopComponents/TopRecentCoffees';
 
 const HomeScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	const topSellingCoffees = useSelector((state) => state.productsRed.availableProducts).filter(
-		(cof) => cof.isTopSelling === true
-	);
+	
 	const dispatch = useDispatch();
 	// const loadProducts = useCallback(async () => {
 	// 	setError(null);
@@ -87,30 +86,6 @@ const HomeScreen = ({ navigation }) => {
 		});
 	};
 
-	const renderItem = (
-		category,
-		{ item, index } //auto gets data in obj form , I deStructured it in params
-	) => {
-		return (
-			<View
-				style={{
-					flex: 1,
-					alignItems: 'stretch',
-					marginLeft: index === 0 ? -5 : 0,
-					marginBottom: 10,
-					width: '33.3%'
-				}}>
-				<CoffeeItem
-					content={item}
-					category={category}
-					onSelect={() => {
-						navigation.navigate('DeptDetails', { itemId: item.id, title: item.constructor.name });
-					}}
-				/>
-			</View>
-		);
-	};
-
 	// if (error) {
 	// 	return (
 	// 		<View style={styles.spinner}>
@@ -146,7 +121,7 @@ const HomeScreen = ({ navigation }) => {
 	// }
 
 	return (
-		<View style={styles.screen} >
+		<View style={styles.screen}>
 			<View style={styles.welcomeRow}>
 				<Text style={styles.welcomeText}>Welcome Nicholas</Text>
 				<TouchIcon name={'cart'} size={25} onTouch={checkCartHandler} />
@@ -174,19 +149,7 @@ const HomeScreen = ({ navigation }) => {
 					</View>
 				</View>
 
-				<View style={styles.row2}>
-					<Text style={styles.rowLabel}>Top Selling Coffee</Text>
-					<FlatList
-						showsHorizontalScrollIndicator={false}
-						//initialNumToRender, refreshing
-						keyExtractor={(item, index) => item.id}
-						data={topSellingCoffees}
-						renderItem={renderItem.bind(this, 'coffee')}
-						horizontal={true}
-						contentContainerStyle={styles.listContainer}
-						style={styles.flatListStyle}
-					/>
-				</View>
+				<TopRecentCoffees isTopSelling  />
 				<View style={styles.action}>
 					<MyBtn title={'Create a Coffee Plan'} />
 				</View>
@@ -259,11 +222,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		// backgroundColor: 'red',
 	},
-	row2: {
-		flex: 1,
-		// backgroundColor: 'green',
-		width: '100%',
-	},
+
 	rowLabel: {
 		marginTop: 10,
 		fontFamily: 'OpenSansBold',
@@ -304,17 +263,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	listContainer: {
-		//flex: 1,
-		width: '100%',
-
-		// backgroundColor: 'purple',
-		paddingVertical: 15,
-		flexDirection: 'row',
-		//justifyContent: 'space',
-		//justifyContent: 'center',
-	},
-	flatListStyle: { flex: 1 },
+	
 	action: {
 		width: '100%',
 		marginTop: 0,
