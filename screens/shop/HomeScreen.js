@@ -28,7 +28,7 @@ import Btn from '../../components/UI/Btn';
 import Touch from '../../components/UI/Touch';
 import MyBtn from '../../components/UI/MyBtn';
 
-const HomeScreen = ({ props, navigation }) => {
+const HomeScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
@@ -78,6 +78,15 @@ const HomeScreen = ({ props, navigation }) => {
 		});
 	};
 
+	const checkCartHandler = () => {
+		navigation.navigate({
+			name: 'Cart',
+			params: {
+				source: 'Home',
+			},
+		});
+	};
+
 	const renderItem = (
 		category,
 		{ item, index } //auto gets data in obj form , I deStructured it in params
@@ -89,6 +98,7 @@ const HomeScreen = ({ props, navigation }) => {
 					alignItems: 'stretch',
 					marginLeft: index === 0 ? -5 : 0,
 					marginBottom: 10,
+					width: '33.3%'
 				}}>
 				<CoffeeItem
 					content={item}
@@ -136,52 +146,52 @@ const HomeScreen = ({ props, navigation }) => {
 	// }
 
 	return (
-		<ScrollView style={styles.screen} showsVerticalScrollIndicator={false}>
+		<View style={styles.screen} >
 			<View style={styles.welcomeRow}>
 				<Text style={styles.welcomeText}>Welcome Nicholas</Text>
-				<TouchIcon name={'cart'} size={25} />
+				<TouchIcon name={'cart'} size={25} onTouch={checkCartHandler} />
 			</View>
-
-			<View style={styles.imageContainer}>
-				<Image source={require('../../assets/images/img1.png')} style={styles.image} />
-			</View>
-
-			<View style={styles.row}>
-				<View style={styles.logoContainer}>
-					<Image source={require('../../assets/logo1.png')} style={styles.logo} />
+			<ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+				<View style={styles.imageContainer}>
+					<Image source={require('../../assets/images/img1.png')} style={styles.image} />
 				</View>
-				<Text>
-					We have sourced the finest and rarest coffees, that easily allows coffee lovers to experience one of
-					life's simple pleasures delivered right to your doorstep.
-				</Text>
-			</View>
 
-			<View style={styles.row}>
-				<View style={styles.imageContainer2}>
-					<ImageBackground source={require('../../assets/images/img2.png')} style={styles.image2}>
-						<Text style={styles.ourCoffee}>Our Coffee</Text>
-					</ImageBackground>
+				<View style={styles.row}>
+					<View style={styles.logoContainer}>
+						<Image source={require('../../assets/logo1.png')} style={styles.logo} />
+					</View>
+					<Text>
+						We have sourced the finest and rarest coffees, that easily allows coffee lovers to experience
+						one of life's simple pleasures delivered right to your doorstep.
+					</Text>
 				</View>
-			</View>
 
-			<View style={styles.row2}>
-				<Text style={styles.rowLabel}>Top Selling Coffee</Text>
-				<FlatList
+				<View style={styles.row}>
+					<View style={styles.imageContainer2}>
+						<ImageBackground source={require('../../assets/images/img2.png')} style={styles.image2}>
+							<Text style={styles.ourCoffee}>Our Coffee</Text>
+						</ImageBackground>
+					</View>
+				</View>
 
-					showsHorizontalScrollIndicator={false}
-					//initialNumToRender, refreshing
-					keyExtractor={(item, index) => item.id}
-					data={topSellingCoffees}
-					renderItem={renderItem.bind(this, 'coffee')}
-					horizontal={true}
-					contentContainerStyle={styles.listContainer}
-					style={styles.flatListStyle}
-				/>
-			</View>
-			<View style={styles.action}>
-				<MyBtn title={'Create a Coffee Plan'} />
-			</View>
-		</ScrollView>
+				<View style={styles.row2}>
+					<Text style={styles.rowLabel}>Top Selling Coffee</Text>
+					<FlatList
+						showsHorizontalScrollIndicator={false}
+						//initialNumToRender, refreshing
+						keyExtractor={(item, index) => item.id}
+						data={topSellingCoffees}
+						renderItem={renderItem.bind(this, 'coffee')}
+						horizontal={true}
+						contentContainerStyle={styles.listContainer}
+						style={styles.flatListStyle}
+					/>
+				</View>
+				<View style={styles.action}>
+					<MyBtn title={'Create a Coffee Plan'} />
+				</View>
+			</ScrollView>
+		</View>
 	);
 };
 
@@ -189,22 +199,11 @@ const HomeScreen = ({ props, navigation }) => {
 export const screenOptions = (navProps) => {
 	const cartIcon = 'md-cart';
 	return {
-		headerShown: false,
-		headerTitle: 'Home',
-		headerRight: (props) => (
-			<HeaderButtons HeaderButtonComponent={HeaderBtn}>
-				<Item
-					tile="Cart"
-					iconName={cartIcon}
-					onPress={() => {
-						navProps.navigation.navigate({
-							name: 'Cart',
-							params: {},
-						});
-					}}
-				/>
-			</HeaderButtons>
-		),
+		headerTitle: '',
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: Colors.primary,
+		},
 	};
 };
 
@@ -212,12 +211,15 @@ const styles = StyleSheet.create({
 	screen: {
 		backgroundColor: Colors.primary,
 		flex: 1,
+		marginTop: -2,
 		// justifyContent: 'center',
 		// alignItems: 'center',
-		padding: 20,
+		paddingHorizontal: 20,
+	},
+	scroll: {
+		paddingVertical: 30,
 	},
 	welcomeRow: {
-		paddingTop: 40,
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		width: '100%',
-		//height: 134,
+		height: 134,
 		borderRadius: 10,
 		overflow: 'hidden',
 		padding: 10,
@@ -271,8 +273,8 @@ const styles = StyleSheet.create({
 	image: {
 		borderRadius: 10,
 		width: '100%',
-		aspectRatio: (313/134)
-		// height: '100%',
+		aspectRatio: 313 / 134,
+		height: '100%',
 	},
 	image2: {
 		justifyContent: 'center',
@@ -304,17 +306,17 @@ const styles = StyleSheet.create({
 	},
 	listContainer: {
 		//flex: 1,
-		width:'100%',
-		
+		width: '100%',
+
 		// backgroundColor: 'purple',
 		paddingVertical: 15,
 		flexDirection: 'row',
 		//justifyContent: 'space',
 		//justifyContent: 'center',
 	},
-	flatListStyle: { flex: 1,  },
+	flatListStyle: { flex: 1 },
 	action: {
-		width:'100%',
+		width: '100%',
 		marginTop: 0,
 		paddingHorizontal: 30,
 	},

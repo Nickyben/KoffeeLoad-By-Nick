@@ -76,13 +76,22 @@ const CoffeeShopScreen = ({ props, navigation }) => {
 			},
 		});
 	};
+
+	const checkCartHandler = () => {
+		navigation.navigate({
+			name: 'Cart',
+			params: {
+				source: 'Shop',
+			},
+		});
+	};
 	const loadSearchesHandler = (text) => {};
 
 	const renderItem = (
 		category,
 		{ item } //auto gets data in obj form , I deStructured it in params
 	) => (
-		<View style={{marginBottom: 10, alignItems: 'stretch', width: '33.3%',  }}>
+		<View style={{ marginBottom: 10, alignItems: 'stretch', width: '33.3%' }}>
 			<CoffeeItem
 				content={item}
 				category={category}
@@ -169,9 +178,17 @@ const CoffeeShopScreen = ({ props, navigation }) => {
 	);
 };
 
-export const screenOptions = (navProps) => {
+export const screenOptions = ({ navigation }) => {
 	const cartIcon = 'md-cart';
 	const leftArrow = 'md-arrow-round-back';
+	const checkCartHandler = () => {
+		navigation.navigate({
+			name: 'Cart',
+			params: {
+				source: 'Shop',
+			},
+		});
+	};
 	return {
 		headerShown: true,
 		headerTitle: '',
@@ -181,16 +198,7 @@ export const screenOptions = (navProps) => {
 		},
 		headerLeft: (props) => (
 			<HeaderButtons HeaderButtonComponent={HeaderBtn}>
-				<Item
-					tile="arrowLeft"
-					iconName={leftArrow}
-					onPress={() => {
-						// navProps.navigation.navigate({
-						// 	name: 'Cart',
-						// 	params: {},
-						// });
-					}}
-				/>
+				<Item tile="arrowLeft" iconName={leftArrow} onPress={checkCartHandler} />
 			</HeaderButtons>
 		),
 		headerRight: (props) => (
@@ -199,7 +207,7 @@ export const screenOptions = (navProps) => {
 					tile="Cart"
 					iconName={cartIcon}
 					onPress={() => {
-						navProps.navigation.navigate({
+						navigation.navigate({
 							name: 'Cart',
 							params: {},
 						});

@@ -109,6 +109,7 @@ const CoffeeShopStackNavigator= () => {
 				component={CoffeeShopScreen}
 				options={coffeeShopScreenOptions}
 			/>
+			<CoffeeShopStackNav.Screen name="Cart" component={CartScreen} options={cartScreenOptions} />
 		</CoffeeShopStackNav.Navigator>
 	);
 };
@@ -151,7 +152,7 @@ const KoffeeLoadTabNav = createBottomTabNavigator();
 export const KoffeeLoadTabNavigator = () => {
 	return (
 		<KoffeeLoadTabNav.Navigator
-			initialRouteName="Account"
+			initialRouteName="Home"
 			screenOptions={defaultTabStacksOpts}
 			tabBarOptions={{
 				activeTintColor: '#000',
