@@ -10,8 +10,19 @@ import LogoScreen2 from '../screens/LogoScreen2';
 
 const AppNavigator = (props) => {
 	const [isLoadingApp, setIsLoadingApp] = useState(true);
-	const isAuth = isLoadingApp === false; // useSelector(state => !!state.authRed.idToken);
+	const [isAuth, setIsAuth] = useState(false);
+
+	//const isAuth = isLoadingApp === false; // useSelector(state => !!state.authRed.idToken);
 	const didTryAutoLogin = useSelector((state) => !!state.authRed.didTryAutoLogin);
+	useEffect(() => {
+		const logoLoad = setTimeout(() => {
+			setIsLoadingApp(false);
+			setIsAuth(true);
+		}, 5000);
+		return () => {
+			clearTimeout(logoLoad);
+		};
+	}, []);
 
 	return (
 		<NavigationContainer>
