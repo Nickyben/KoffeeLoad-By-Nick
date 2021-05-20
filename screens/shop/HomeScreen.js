@@ -126,7 +126,10 @@ const HomeScreen = ({ navigation }) => {
 				<Text style={styles.welcomeText}>Welcome Nicholas</Text>
 				<TouchIcon name={'cart'} size={25} onTouch={checkCartHandler} />
 			</View>
-			<ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+			<ScrollView
+				style={styles.scroll}
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{ width: '100%', maxWidth: 500, alignSelf: 'center' }}>
 				<View style={styles.imageContainer}>
 					<Image source={require('../../assets/images/img1.png')} style={styles.image} />
 				</View>
@@ -149,7 +152,7 @@ const HomeScreen = ({ navigation }) => {
 					</View>
 				</View>
 
-				<TopRecentCoffees isTopSelling  />
+				<TopRecentCoffees isTopSelling />
 				<View style={styles.action}>
 					<MyBtn title={'Create a Coffee Plan'} />
 				</View>

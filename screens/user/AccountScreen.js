@@ -16,7 +16,6 @@ import { useSelector, useDispatch } from 'react-redux'; // another approach is i
 import { HeaderTitle } from 'react-navigation-stack';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import ProductItem from '../../components/shopComponents/CoffeeItem';
 import HeaderBtn from '../../components/UI/HeaderBtn';
 import * as cartActions from '../../store/actions/cartAction';
 import * as prodActions from '../../store/actions/productsAct';
@@ -27,6 +26,7 @@ import CoffeeItem from '../../components/shopComponents/CoffeeItem';
 import Btn from '../../components/UI/Btn';
 import Touch from '../../components/UI/Touch';
 import MyBtn from '../../components/UI/MyBtn';
+import { logout } from '../../store/actions/authAction';
 
 const AccountScreen = ({ props, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -96,24 +96,27 @@ const AccountScreen = ({ props, navigation }) => {
 		});
 	};
 
-	// if (error) {
-	// 	return (
-	// 		<View style={styles.spinner}>
-	// 			<Text>Oops! an error occurred!</Text>
-	// 			<Button
-	// 				color={Colors.primary}
-	// 				title="Try Again"
-	// 				onPress={() => {
-	// 					setIsLoading(true);
-	// 					loadProducts().then(() => {
-	// 						setIsLoading(false);
-	// 					});
-	// 				}}
-	// 			/>
-	// 		</View>
-	// 	);
-	// }
+	const authHandler = async () => {
+		let action = logout();
+		
+		setError(null);
+		setIsLoading(true);
+		try {
+			await dispatch(action);
+		} catch (err) {
+			//	alert(err.message)
+			setError(err.message);
+			setIsLoading(false);
+		}
+	};
+	useEffect(() => {
+		if (error) {
+			alert(error);
+			//Alert.alert('Error Occurred', error, [{ text: 'Okay' }]);
+		}
+	}, [error]); //check : i added an empty array dep
 
+	
 	if (isLoading) {
 		return (
 			<View style={styles.spinner}>
@@ -122,20 +125,16 @@ const AccountScreen = ({ props, navigation }) => {
 		);
 	}
 
-	// if (!isLoading && products.length === 0) {
-	// 	return (
-	// 		<View style={styles.spinner}>
-	// 			<Text>Oops! No products Found!</Text>
-	// 		</View>
-	// 	);
-	// }
-
+	
 	return (
 		<View style={styles.screen}>
 			<View style={styles.welcomeRow}>
 				<Text style={styles.welcomeText}>Welcome Nicholas!</Text>
 			</View>
-			<ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+			<ScrollView
+				style={styles.scroll}
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{ width: '100%', maxWidth: 500, alignSelf: 'center' }}>
 				{accountItems.map((section, index) => {
 					const { sectionTitle, subItems } = section;
 
@@ -144,11 +143,15 @@ const AccountScreen = ({ props, navigation }) => {
 							<Text style={styles.itemsHeader}>{sectionTitle}</Text>
 							<View style={{ paddingHorizontal: 10 }}>
 								{subItems.map(({ title, icon, onSelect }, subIndex) => {
-									const iconIsImage = !(icon === 'sync' || icon === 'person' || icon === 'heart-empty'); 
+									const iconIsImage = !(
+										icon === 'sync' ||
+										icon === 'person' ||
+										icon === 'heart-empty'
+									);
 									return (
 										<View style={styles.itemRow} key={subIndex}>
 											<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-												{!iconIsImage? (
+												{!iconIsImage ? (
 													<TouchIcon
 														useIosIcon={icon === 'heart-empty'}
 														name={icon}
@@ -160,7 +163,10 @@ const AccountScreen = ({ props, navigation }) => {
 														source={require(`../../assets/${icon}.png`)}
 													/>
 												)}
-												<Text style={[styles.itemTitle],{marginLeft: iconIsImage? 10: 5}}>{title}</Text>
+												<Text
+													style={([styles.itemTitle], { marginLeft: iconIsImage ? 10 : 5 })}>
+													{title}
+												</Text>
 											</View>
 											<TouchIcon useIosIcon name={'arrow-forward'} size={23} />
 										</View>
@@ -172,12 +178,12 @@ const AccountScreen = ({ props, navigation }) => {
 				})}
 
 				<View style={styles.action}>
-					<MyBtn title={'Log Out'} bgColor={Colors.btn} textColor={'#fff'} />
+					<MyBtn title={'Log Out'} bgColor={Colors.btn} textColor={'#fff'} onPress={authHandler}/>
 				</View>
 			</ScrollView>
 		</View>
 	);
-};
+};;
 
 //ProductsOverviewScreen.navigationOptions
 export const screenOptions = (navProps) => {

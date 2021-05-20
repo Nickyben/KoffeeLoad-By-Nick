@@ -12,10 +12,10 @@ const Touch = ({ disabled, onTouch, onLongTouch, children, style, useIos, active
 			<TouchableCmp
 				disabled={disabled}
 				activeOpacity={activeOpacity ? activeOpacity : 0.4}
-				style={{ ...styles.touchable }}
+				style={[styles.touchable]}
 				onLongPress={onLongTouch}
 				onPress={onTouch}>
-				<View style={{ ...styles.children, ...style }}>{children}</View>
+				<View style={[styles.children, style] }>{children}</View>
 			</TouchableCmp>
 		</View>
 	);

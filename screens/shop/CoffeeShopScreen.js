@@ -170,7 +170,10 @@ const CoffeeShopScreen = ({ props, navigation }) => {
 					keyExtractor={(item, index) => item.id}
 					data={shopCoffees}
 					renderItem={renderItem.bind(this, 'coffee')}
-					contentContainerStyle={styles.listContainer}
+					contentContainerStyle={[
+						styles.listContainer,
+						{ width: '100%', maxWidth: 500, alignSelf: 'center' },
+					]}
 					style={styles.flatListStyle}
 				/>
 			</View>
@@ -249,7 +252,7 @@ const styles = StyleSheet.create({
 		color: '#222',
 		// padding: 10,
 	},
-	
+
 	imageContainer2: {
 		width: '100%',
 		height: 96,
@@ -257,7 +260,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		// backgroundColor: 'red',
 	},
-	
+
 	row: {
 		width: '100%',
 		padding: 10,

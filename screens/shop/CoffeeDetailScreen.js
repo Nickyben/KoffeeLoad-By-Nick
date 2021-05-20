@@ -34,7 +34,10 @@ const CoffeeDetailScreen = ({ route }) => {
 				onLeftIconPress={loadSearchesHandler}
 				multiline={false}
 			/>
-			<ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+			<ScrollView
+				style={styles.scroll}
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{ width: '100%', maxWidth: 500, alignSelf: 'center' }}>
 				<View style={styles.row}>
 					<View style={styles.imageContainer2}>
 						<ImageBackground source={image} style={styles.image2}>
@@ -51,7 +54,7 @@ const CoffeeDetailScreen = ({ route }) => {
 					<View></View>
 					<View style={styles.action}>
 						<MyBtn
-                        padding={15}
+							padding={15}
 							bgColor={Colors.btn}
 							textColor={'white'}
 							title="Add To Cart"

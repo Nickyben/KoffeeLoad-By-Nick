@@ -49,56 +49,59 @@ const CartScreen = (props) => {
 			<View style={styles.welcomeRow}>
 				<Text style={styles.welcomeText}>Cart</Text>
 			</View>
-			<View style={{ flex: 1 }}>
-				<ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-					{shopCoffees.map(({ id, title, image, price }, index) => {
-						return (
+			{/* <View style={{ flex: 1 }}> */}
+			<ScrollView
+				style={styles.scroll}
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{ width: '100%', maxWidth: 500, alignSelf: 'center' }}>
+				{shopCoffees.map(({ id, title, image, price }, index) => {
+					return (
+						<View
+							key={id}
+							style={{ padding: 20, backgroundColor: '#E4D4C8', borderRadius: 15, marginBottom: 10 }}>
 							<View
-								key={id}
-								style={{ padding: 20, backgroundColor: '#E4D4C8', borderRadius: 15, marginBottom: 10 }}>
-								<View
-									style={{
-										flexDirection: 'row',
-										alignItems: 'center',
-										paddingBottom: 10,
-										borderBottomColor: Colors.accent,
-										borderBottomWidth: 1,
-									}}>
-									<Image source={image} style={{ width: 90, height: 70 }} />
-									<View style={{ padding: 15 }}>
-										<Text style={[styles.cartText, { fontSize: 18, marginBottom: 15 }]}>
-											{title}
-										</Text>
-										<Text style={styles.cartText}>£{price}</Text>
-									</View>
-								</View>
-								<View style={[arrangeRow]}>
-									<View style={[arrangeRow]}>
-										{['heart-empty', 'trash'].map((name, index) => {
-											return <TouchIcon key={index} useIosIcon name={name} size={23} />;
-										})}
-										<Text style={styles.cartText}>Remove</Text>
-									</View>
-									<View style={[arrangeRow]}></View>
+								style={{
+									flexDirection: 'row',
+									alignItems: 'center',
+									paddingBottom: 10,
+									borderBottomColor: Colors.accent,
+									borderBottomWidth: 1,
+								}}>
+								<Image source={image} style={{ width: 90, height: 70 }} />
+								<View style={{ padding: 15 }}>
+									<Text style={[styles.cartText, { fontSize: 18, marginBottom: 15 }]}>{title}</Text>
+									<Text style={styles.cartText}>£{price}</Text>
 								</View>
 							</View>
-						);
-					})}
+							<View style={[arrangeRow]}>
+								<View style={[arrangeRow]}>
+									{['heart-empty', 'trash'].map((name, index) => {
+										return <TouchIcon key={index} useIosIcon name={name} size={23} />;
+									})}
+									<Text style={styles.cartText}>Remove</Text>
+								</View>
+								<View style={[arrangeRow]}></View>
+							</View>
+						</View>
+					);
+				})}
 
-					<View style={[arrangeRow, { flex: 1, justifyContent: 'space-between' }]}>
-						<Text style={[styles.cartText, {fontSize: 14}]}>Total</Text>
-						<Text style={[styles.cartText, {fontSize: 14}]}>£{cartTotalAmt? (Math.round(cartTotalAmt.toFixed(2) * 100) / 100): '40.00'}</Text>
-					</View>
-					<View style={[styles.action,{ marginBottom: 15}]}>
-						{isLoading ? (
-							<ActivityIndicator size="large" color={Colors.primary} />
-						) : (
-							<MyBtn title={'Complete Your Order'} bgColor={Colors.btn} textColor={'#fff'} />
-						)}
-					</View>
-					<TopRecentCoffees/>
+				<View style={[arrangeRow, { flex: 1, justifyContent: 'space-between' }]}>
+					<Text style={[styles.cartText, { fontSize: 14 }]}>Total</Text>
+					<Text style={[styles.cartText, { fontSize: 14 }]}>
+						£{cartTotalAmt ? Math.round(cartTotalAmt.toFixed(2) * 100) / 100 : '40.00'}
+					</Text>
+				</View>
+				<View style={[styles.action, { marginBottom: 15 }]}>
+					{isLoading ? (
+						<ActivityIndicator size="large" color={Colors.primary} />
+					) : (
+						<MyBtn title={'Complete Your Order'} bgColor={Colors.btn} textColor={'#fff'} />
+					)}
+				</View>
+				<TopRecentCoffees />
 
-					{/* <FlatList
+				{/* <FlatList
 						data={cartItemsArr}
 						horizontal={true}
 						keyExtractor={(item) => item.productId}
@@ -114,8 +117,8 @@ const CartScreen = (props) => {
 							/>
 						)}
 					/> */}
-				</ScrollView>
-			</View>
+			</ScrollView>
+			{/* </View> */}
 		</View>
 	);
 };
@@ -134,14 +137,15 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		marginTop: -2,
+		backgroundColor: 'blue'
 	},
 	scroll: {
 		backgroundColor: '#fff',
 		flex: 1,
-
 		// justifyContent: 'center',
 		// alignItems: 'center',
 		padding: 20,
+		paddingBottom:0,
 	},
 	welcomeRow: {
 		backgroundColor: Colors.accent,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet,SafeAreaView, Button, View, Image } from 'react-native';
+import { Platform, StyleSheet, SafeAreaView, Button, View, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 //react navigation version 5
@@ -18,7 +18,19 @@ import UserProductsScreen, { screenOptions as userProdsScreenOptions } from '../
 import AccountScreen, { screenOptions as accountScreenOptions } from '../screens/user/AccountScreen';
 import EditProductScreen, { screenOptions as editProdScreenOptions } from '../screens/user/EditProductScreen';
 import Colors from '../constants/Colors';
+
+
 import AuthScreen, { screenOptions as authScreenOptions } from '../screens/user/AuthScreen';
+// //AUTHENTICATION
+// import AuthScreen, { screenOptions as authScreenOptions } from '../screens/pointerApp/AuthScreen';
+// import ForgotPasswordScreen, {
+// 	screenOptions as forgotPWScreenOptions,
+// } from '../screens/pointerApp/ForgotPasswordScreen';
+// import AuthSignup, { screenOptions as authSignupScreenOptions } from '../screens/pointerApp/AuthSignup';
+
+// import ErrorScreen, { screenOptions as errorScreenOptions } from '../screens/pointerApp/ErrorScreen';
+
+
 import StartupScreen, { screenOptions as startUpScreenOptions } from '../screens/StartupScreen';
 
 import * as authActions from '../store/actions/authAction';
@@ -46,7 +58,7 @@ const defaultNavOptions = {
 	headerStyle: {
 		backgroundColor: Colors.primary,
 		borderBottomWidth: 0,
-        borderBottomColor:'transparent',
+		borderBottomColor: 'transparent',
 	},
 	headerTintColor: Colors.white,
 	headerTitleAlign: 'left',
@@ -58,7 +70,7 @@ const defaultTabStacksOpts = ({ route }) => ({
 		let iconSize;
 		if (route.name === 'Home') {
 			iconName = 'md-home';
-		}  else if (route.name === 'Account') {
+		} else if (route.name === 'Account') {
 			iconName = 'md-person';
 		}
 		//else if (route.name === 'Home') {
@@ -101,7 +113,7 @@ const OrdersStackNavigator = () => {
 };
 
 const CoffeeShopStackNav = createStackNavigator();
-const CoffeeShopStackNavigator= () => {
+const CoffeeShopStackNavigator = () => {
 	return (
 		<CoffeeShopStackNav.Navigator screenOptions={defaultNavOptions}>
 			<CoffeeShopStackNav.Screen
@@ -118,7 +130,6 @@ const CoffeeShopStackNavigator= () => {
 		</CoffeeShopStackNav.Navigator>
 	);
 };
-
 
 const AdminStackNav = createStackNavigator();
 
@@ -151,6 +162,45 @@ export const AuthNavigator = () => {
 		</AuthStackNav.Navigator>
 	);
 };
+
+// const AuthStackNav = createStackNavigator();
+
+// export const AuthStackNavigator = () => {
+// 	return (
+// 		<AuthStackNav.Navigator
+// 			screenOptions={{
+// 				cardStyleInterpolator: ({ current, layouts }) => {
+// 					return {
+// 						cardStyle: {
+// 							transform: [
+// 								{
+// 									translateX: current.progress.interpolate({
+// 										inputRange: [0, 1],
+// 										outputRange: [layouts.screen.width, 0],
+// 									}),
+// 								},
+// 							],
+// 						},
+// 					};
+// 				},
+// 				headerShown: false,
+// 			}}>
+// 			<AuthStackNav.Screen name="Authenticate" component={AuthScreen} options={authScreenOptions} />
+// 			<AuthStackNav.Screen name="AuthSignup" component={AuthSignup} options={authSignupScreenOptions} />
+
+// 			<AuthStackNav.Screen
+// 				name="ForgotPassword"
+// 				component={ForgotPasswordScreen}
+// 				options={forgotPWScreenOptions}
+// 			/>
+// 			<AuthStackNav.Screen
+// 				name="ErrorStack"
+// 				component={ErrorStackNavigator}
+// 				//options={helpOverviewScreenOpts}
+// 			/>
+// 		</AuthStackNav.Navigator>
+// 	);
+// };
 
 const KoffeeLoadTabNav = createBottomTabNavigator();
 
@@ -201,122 +251,6 @@ export const KoffeeLoadTabNavigator = () => {
 		</KoffeeLoadTabNav.Navigator>
 	);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const ShopDrawerNav = createDrawerNavigator();
-
-export const ShopDrawerNavigator = () => {
-	const dispatch = useDispatch();
-
-	return (
-		<ShopDrawerNav.Navigator
-			drawerLabel="Menu"
-			drawerPosition="left"
-			drawerType="front"
-			//you can add drawerStyle here
-			drawerContent={(props) => {
-				return (
-					<View
-						style={{
-							flex: 1,
-							paddingTop: 20,
-						}}>
-						<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-							<DrawerItemList {...props} />
-							<Button
-								title="Logout"
-								color={Colors.primary}
-								onPress={() => {
-									dispatch(authActions.logout());
-									//props.navigation.navigate('Auth')//already handled by the renderer(AppNavigator) of the ShopNavigator @ app.js
-								}}
-							/>
-						</SafeAreaView>
-					</View>
-				);
-			}}
-			drawerContentOptions={{
-				activeTintColor: Colors.primary,
-				activeBackgroundColor: '#f2f2f2',
-				inactiveBackgroundColor: '#fafafa',
-				inactiveTintColor: '#444',
-				labelStyle: {
-					fontSize: 18,
-				},
-			}}>
-			<ShopDrawerNav.Screen
-				name="ProductsStack"
-				component={HomeStackNavigator}
-				options={{
-					//can also be set in the 2nd arg of this stack' s create func
-					drawerLabel: 'Products',
-					drawerIcon: (props) => (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-							size={23}
-							color={props.color}
-						/>
-					),
-				}}
-			/>
-			<ShopDrawerNav.Screen
-				name="OrdersStack"
-				component={OrdersStackNavigator}
-				options={{
-					//can also be set in the 2nd arg of this stack' s create func
-					drawerLabel: 'Orders',
-					drawerIcon: (props) => (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-							size={23}
-							color={props.color}
-						/>
-					),
-				}}
-			/>
-			<ShopDrawerNav.Screen
-				name="UserStack"
-				component={AdminStackNavigator}
-				options={{
-					//can also be set in the 2nd arg of this stack' s create func
-					drawerLabel: 'Admin',
-					drawerIcon: (props) => (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
-							size={23}
-							color={props.color}
-						/>
-					),
-				}}
-			/>
-		</ShopDrawerNav.Navigator>
-	);
-};
-
 
 
 

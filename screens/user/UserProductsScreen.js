@@ -11,13 +11,13 @@ import {
 import { useSelector, useDispatch } from 'react-redux';// another approach is importing and using the connect function
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-//import ProductItem from '../../components/shopComponents/ProductItem';
+// import ProductItem from '../../components/shopComponents/ProductItem';
 import HeaderBtn from '../../components/UI/HeaderBtn';
 import * as productsActions from '../../store/actions/productsAct';
 import Colors from '../../constants/Colors';
 
+let ProductItem;//file removed
 
-let ProductItem;
 const UserProductsScreen = props => {
     const userProducts = useSelector(state => state.productsRed.userProducts);
     const dispatch = useDispatch();

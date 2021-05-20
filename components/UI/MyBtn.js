@@ -33,6 +33,7 @@ const MyBtn = ({
 }) => {
 	return (
 		<Touch
+		onTouch={onPress}
 			style={{
 				width: '100%',
 				alignItems: 'center',

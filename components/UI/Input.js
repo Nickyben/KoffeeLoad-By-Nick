@@ -55,8 +55,7 @@ const inputReducer = (state, action) => {
 	return state;
 };
 
-const Input = (
-	{
+const Input = ({
 	id,
 	initialValue,
 	initialValidity,
@@ -71,7 +70,7 @@ const Input = (
 	inputType,
 	minLength,
 	maxLength,
-expandHeight,
+	expandHeight,
 	style,
 	inputContainerStyle,
 	inputStyle,
@@ -199,7 +198,8 @@ expandHeight,
 			return;
 		}
 
-		const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const emailRegex =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		const emailText = text.toLowerCase();
 
 		const phoneNumberRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -288,29 +288,30 @@ expandHeight,
 	return (
 		//REMINDER: Edit inputs are not working properly when you submit with first input Empty
 		<View
-			style={{
-				...styles.formControl,
-				...style,
-				paddingTop: floatingLabel ? 5 : 0,
-				marginBottom: singleInput ? 0 : styles.formControl.marginBottom,
-			}}>
+			style={[
+				styles.formControl,
+				style,
+				{ paddingTop: floatingLabel ? 5 : 0, marginBottom: singleInput ? 0 : styles.formControl.marginBottom },
+			]}>
 			{!hideLabel && !(inputState.value.length > 0 && inputState.hasFocus && true) && (
 				<Text style={styles.label}>{label ? label : 'Input Label'}</Text>
 			)}
 			{inputState.value.length > 0 && inputState.hasFocus && !hideFloatingLabel && (
-				<Text style={{ ...styles.floatingLabel }}>
+				<Text style={[styles.floatingLabel]}>
 					{floatingLabel ? floatingLabel : placeholder ? placeholder : 'Placeholder'}
 				</Text>
 			)}
 
 			<View
-				style={{
-					...styles.inputContainer,
-					borderBottomColor: inputState.gainedFocus ? Colors.primary : '#bbb',
-					padding: rectInput ? 5 : styles.inputContainer.padding,
-					borderWidth: rectInput ? 1.5 : 0,
-					...inputContainerStyle,
-				}}>
+				style={[
+					styles.inputContainer,
+					{
+						borderBottomColor: inputState.gainedFocus ? Colors.primary : '#bbb',
+						padding: rectInput ? 5 : styles.inputContainer.padding,
+						borderWidth: rectInput ? 1.5 : 0,
+					},
+					inputContainerStyle,
+				]}>
 				{!hideIcon && (
 					<View style={{ marginLeft: rectInput ? 0 : 10 }}>
 						<ItemIcon
@@ -329,12 +330,11 @@ expandHeight,
 					keyboardType={email ? 'email-address' : phoneNumber ? 'phone-pad' : 'default'}
 					secureTextEntry={!!password && !showPassword}
 					placeholder={placeholder ? placeholder : 'placeholder'}
-					style={{
-						...styles.input,
-						...inputStyle,
-						maxHeight: !others.multiline ? 50 :  expandHeight ? expandHeight : 200,
-						minHeight: 50,
-					}}
+					style={[
+						styles.input,
+						inputStyle,
+						{ maxHeight: !others.multiline ? 50 : expandHeight ? expandHeight : 200, minHeight: 50 },
+					]}
 					value={newValue}
 					onChangeText={textChangeHandler}
 					onBlur={lostFocusHandler}
@@ -363,7 +363,8 @@ const styles = StyleSheet.create({
 	label: {
 		marginTop: 10,
 		marginBottom: 7,
-		paddingHorizontal: 10,
+		// paddingHorizontal: 10,
+		paddingHorizontal: 0,
 		fontSize: 17,
 		fontFamily: 'OpenSansBold',
 		color: '#555',

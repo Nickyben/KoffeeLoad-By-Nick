@@ -69,7 +69,6 @@ const TopRecentCoffees = ({ isTopSelling }) => {
 const styles = StyleSheet.create({
 	row2: {
 		flex: 1,
-		// backgroundColor: 'green',
 		width: '100%',
 	},
 	rowLabel: {

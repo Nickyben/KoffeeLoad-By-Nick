@@ -12,17 +12,17 @@ const AppNavigator = (props) => {
 	const [isLoadingApp, setIsLoadingApp] = useState(true);
 	const [isAuth, setIsAuth] = useState(false);
 
-	//const isAuth = isLoadingApp === false; // useSelector(state => !!state.authRed.idToken);
+	const isAuthenticated =  useSelector(state => !!state.authRed.idToken);
 	const didTryAutoLogin = useSelector((state) => !!state.authRed.didTryAutoLogin);
 	useEffect(() => {
 		const logoLoad = setTimeout(() => {
 			setIsLoadingApp(false);
-			setIsAuth(true);
-		}, 5000);
+			setIsAuth(isAuthenticated);
+		}, 1000);
 		return () => {
 			clearTimeout(logoLoad);
 		};
-	}, []);
+	}, [isAuthenticated]);
 
 	return (
 		<NavigationContainer>
