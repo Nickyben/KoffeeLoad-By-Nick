@@ -34,7 +34,6 @@ const TopRecentCoffees = ({ isTopSelling }) => {
 					flex: 1,
 					alignItems: 'stretch',
 					marginLeft: index === 0 ? -5 : 0,
-					marginBottom: 10,
 					width: '33.3%',
 				}}>
 				<CoffeeItem
@@ -78,15 +77,14 @@ const styles = StyleSheet.create({
 		color: '#222',
 	},
 	listContainer: {
-		//flex: 1,
-		width: '100%',
-
-		// backgroundColor: 'purple',
-		paddingVertical: 15,
-		flexDirection: 'row',
+		flex: 1,
+		
+	
+		
 		//justifyContent: 'space',
 		//justifyContent: 'center',
 	},
-	flatListStyle: { flex: 1 },
+	flatListStyle: { flex: 1,flexDirection: 'row',	paddingVertical: 15,
+	},
 });
 export default TopRecentCoffees;

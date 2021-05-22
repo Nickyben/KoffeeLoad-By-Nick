@@ -20,7 +20,9 @@ const StartupScreen = (props) => {
                 return;
             }
             const userDataObj = JSON.parse(userData);
-            const { idToken, userId, expiryDate} = userDataObj;
+            	
+            if(!userDataObj) return;
+            const { idToken, userId, expiryDate, userEmail, userName, signupDate, signupId } = userDataObj;
             const expiryDateObj =  new Date(expiryDate);//converting the ISOString back to an obj
             if (expiryDateObj <= new Date() || !idToken || !userId){//checking if the expiry date is past or now or token or userId cant be found
                // props.navigation.navigate('Auth');
@@ -30,7 +32,7 @@ const StartupScreen = (props) => {
             const expiryTime = expiryDateObj.getTime() - new Date().getTime();
 
            // props.navigation.navigate('Shop');
-            dispatch(authActions.authenticate(idToken, userId, expiryTime));
+            dispatch(authActions.authenticate(idToken, userId, expiryTime, {userEmail, userName, signupDate:new Date(signupDate), signupId}));
             
         };
 
@@ -41,7 +43,7 @@ const StartupScreen = (props) => {
         <View style={styles.screen}>
             <ActivityIndicator
                 size='large'
-                color={Colors.primary}
+                color={Colors.btn}
             />
         </View>
     )

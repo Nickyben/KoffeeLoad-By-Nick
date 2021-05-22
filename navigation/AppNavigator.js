@@ -12,7 +12,7 @@ const AppNavigator = (props) => {
 	const [isLoadingApp, setIsLoadingApp] = useState(true);
 	const [isAuth, setIsAuth] = useState(false);
 
-	const isAuthenticated =  useSelector(state => !!state.authRed.idToken);
+	const isAuthenticated = useSelector((state) => !!state.authRed.idToken);
 	const didTryAutoLogin = useSelector((state) => !!state.authRed.didTryAutoLogin);
 	useEffect(() => {
 		const logoLoad = setTimeout(() => {
@@ -27,11 +27,14 @@ const AppNavigator = (props) => {
 	return (
 		<NavigationContainer>
 			{isLoadingApp && <LogoScreen2 />}
+			{!isLoadingApp && (
+				<>
+					{isAuth && <KoffeeLoadTabNavigator />}
 
-			{isAuth && <KoffeeLoadTabNavigator />}
-
-			{!isLoadingApp && !isAuth && didTryAutoLogin && <AuthNavigator />}
-			{!isLoadingApp && !isAuth && !didTryAutoLogin && <StartupScreen />}
+					{!isAuth && didTryAutoLogin && <AuthNavigator />}
+					{!isAuth && !didTryAutoLogin && <StartupScreen />}
+				</>
+			)}
 		</NavigationContainer>
 	);
 };

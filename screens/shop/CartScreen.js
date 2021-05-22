@@ -14,8 +14,9 @@ import * as ordersActions from '../../store/actions/ordersAction';
 import TouchIcon from '../../components/UI/TouchIcon';
 import MyBtn from '../../components/UI/MyBtn';
 import TopRecentCoffees from '../../components/shopComponents/TopRecentCoffees';
+import Touch from '../../components/UI/Touch';
 
-const CartScreen = (props) => {
+const CartScreen = ({navigation}) => {
 	const [isLoading, setIsLoading] = useState(false);
 	//const [error, setError] = useState()
 	const cartTotalAmt = useSelector((state) => state.cartRed.totalAmount);
@@ -43,7 +44,7 @@ const CartScreen = (props) => {
 		setIsLoading(false);
 	};
 	const shopCoffees = useSelector((state) => state.productsRed.availableProducts).filter((coffee,index)=>(index===0 || index===3));
-	const arrangeRow = { flexDirection: 'row', alignItems: 'center' };
+	const arrangeRow = { flexDirection: 'row', alignItems: 'center',  };
 	return (
 		<View style={styles.screen}>
 			<View style={styles.welcomeRow}>
@@ -53,7 +54,12 @@ const CartScreen = (props) => {
 			<ScrollView
 				style={styles.scroll}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ width: '100%', maxWidth: 500, alignSelf: 'center' }}>
+				contentContainerStyle={{
+					paddingVertical: 20,
+					width: '100%',
+					maxWidth: 500,
+					alignSelf: 'center',
+				}}>
 				{shopCoffees.map(({ id, title, image, price }, index) => {
 					return (
 						<View
@@ -67,7 +73,14 @@ const CartScreen = (props) => {
 									borderBottomColor: Colors.accent,
 									borderBottomWidth: 1,
 								}}>
-								<Image source={image} style={{ width: 90, height: 70 }} />
+								<Touch
+									onTouch={() => {
+										navigation.navigate('CoffeeDetail', {
+											itemId: id,
+										});
+									}}>
+									<Image source={image} style={{ width: 90, height: 70, borderRadius: 10 }} />
+								</Touch>
 								<View style={{ padding: 15 }}>
 									<Text style={[styles.cartText, { fontSize: 18, marginBottom: 15 }]}>{title}</Text>
 									<Text style={styles.cartText}>£{price}</Text>
@@ -86,7 +99,7 @@ const CartScreen = (props) => {
 					);
 				})}
 
-				<View style={[arrangeRow, { flex: 1, justifyContent: 'space-between' }]}>
+				<View style={[arrangeRow, {  justifyContent: 'space-between' ,}]}>
 					<Text style={[styles.cartText, { fontSize: 14 }]}>Total</Text>
 					<Text style={[styles.cartText, { fontSize: 14 }]}>
 						£{cartTotalAmt ? Math.round(cartTotalAmt.toFixed(2) * 100) / 100 : '40.00'}
@@ -99,8 +112,8 @@ const CartScreen = (props) => {
 						<MyBtn title={'Complete Your Order'} bgColor={Colors.btn} textColor={'#fff'} />
 					)}
 				</View>
-				<TopRecentCoffees />
 
+				<TopRecentCoffees />
 				{/* <FlatList
 						data={cartItemsArr}
 						horizontal={true}
@@ -137,15 +150,12 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		marginTop: -2,
-		backgroundColor: 'blue'
 	},
 	scroll: {
-		backgroundColor: '#fff',
 		flex: 1,
+		paddingHorizontal: 20,
 		// justifyContent: 'center',
 		// alignItems: 'center',
-		padding: 20,
-		paddingBottom:0,
 	},
 	welcomeRow: {
 		backgroundColor: Colors.accent,
@@ -167,7 +177,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: '#222',
 	},
-	
 
 	action: {
 		width: '100%',

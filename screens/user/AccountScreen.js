@@ -52,8 +52,9 @@ const AccountScreen = ({ props, navigation }) => {
 			],
 		},
 	];
-
+const userAppData = useSelector((state) => state.authRed);
 	const dispatch = useDispatch();
+	const {userName}= userAppData;
 	// const loadProducts = useCallback(async () => {
 	// 	setError(null);
 	// 	setIsRefreshing(true);
@@ -129,7 +130,7 @@ const AccountScreen = ({ props, navigation }) => {
 	return (
 		<View style={styles.screen}>
 			<View style={styles.welcomeRow}>
-				<Text style={styles.welcomeText}>Welcome Nicholas!</Text>
+				<Text style={styles.welcomeText}>Welcome {userName}!</Text>
 			</View>
 			<ScrollView
 				style={styles.scroll}
@@ -178,7 +179,7 @@ const AccountScreen = ({ props, navigation }) => {
 				})}
 
 				<View style={styles.action}>
-					<MyBtn title={'Log Out'} bgColor={Colors.btn} textColor={'#fff'} onPress={authHandler}/>
+					<MyBtn title={'Log Out'} bgColor={Colors.btn} textColor={'#fff'} onPress={authHandler} />
 				</View>
 			</ScrollView>
 		</View>

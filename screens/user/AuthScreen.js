@@ -77,11 +77,12 @@ const AuthScreen = (props) => {
 	const authHandler = async () => {
 		let action;
 		if (isSignup) {
-			action = authActions.signup(
-				formState.inputValues.signupEmail,
-				formState.inputValues.signupPassword,
-				formState.inputValues.signConfirmPassword
-			);
+			action = authActions.signup({
+				userEmail: formState.inputValues.signupEmail,
+				userPassword: formState.inputValues.signupPassword,
+				userConfirmPassword: formState.inputValues.signConfirmPassword,
+				userName: formState.inputValues.signupName,
+			});
 		} else {
 			//alert(formState.inputValues.loginEmail + ' ' + formState.inputValues.loginPassword);
 
@@ -92,7 +93,7 @@ const AuthScreen = (props) => {
 		try {
 			await dispatch(action);
 		} catch (err) {
-		//	alert(err.message)
+			//	alert(err.message)
 			setError(err.message);
 			setIsLoading(false);
 		}
@@ -180,7 +181,7 @@ const AuthScreen = (props) => {
 	];
 	useEffect(() => {
 		if (error) {
-			alert(error)
+			alert(error);
 			//Alert.alert('Error Occurred', error, [{ text: 'Okay' }]);
 		}
 	}, [error]); //check : i added an empty array dep
@@ -358,7 +359,7 @@ const AuthScreen = (props) => {
 			</ScrollView>
 		</KeyboardAvoidingView>
 	);
-};;
+};
 
 //AuthScreen.navigationOptions =
 export const screenOptions = (navProps) => {

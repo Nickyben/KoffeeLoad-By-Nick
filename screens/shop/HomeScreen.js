@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [error, setError] = useState();
-	
+const userAppData = useSelector((state) => state.authRed);
 	const dispatch = useDispatch();
 	// const loadProducts = useCallback(async () => {
 	// 	setError(null);
@@ -66,6 +66,8 @@ const HomeScreen = ({ navigation }) => {
 	// 	},
 	// 	[dispatch, loadProducts]
 	// );
+	
+	const { userName } = userAppData && userAppData;
 
 	const selectItemHandler = (id, title) => {
 		navigation.navigate({
@@ -119,17 +121,23 @@ const HomeScreen = ({ navigation }) => {
 	// 		</View>
 	// 	);
 	// }
-
 	return (
 		<View style={styles.screen}>
 			<View style={styles.welcomeRow}>
-				<Text style={styles.welcomeText}>Welcome Nicholas</Text>
+				<Text style={styles.welcomeText}>Welcome {userName}</Text>
 				<TouchIcon name={'cart'} size={25} onTouch={checkCartHandler} />
 			</View>
 			<ScrollView
 				style={styles.scroll}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ width: '100%', maxWidth: 500, alignSelf: 'center' }}>
+				contentContainerStyle={[
+					{
+						paddingVertical: 30,
+						width: '100%',
+						maxWidth: 500,
+						alignSelf: 'center',
+					},
+				]}>
 				<View style={styles.imageContainer}>
 					<Image source={require('../../assets/images/img1.png')} style={styles.image} />
 				</View>
@@ -183,7 +191,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	scroll: {
-		paddingVertical: 30,
+		flex: 1,
 	},
 	welcomeRow: {
 		justifyContent: 'space-between',
@@ -204,7 +212,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		overflow: 'hidden',
 		padding: 10,
-		// backgroundColor: 'red',
 	},
 	imageContainer2: {
 		width: '100%',
@@ -266,7 +273,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	
+
 	action: {
 		width: '100%',
 		marginTop: 0,
