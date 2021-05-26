@@ -46,15 +46,19 @@ const TouchIcon = ({
 
 	return (
 		<View
-			style={
-				({
+			style={[
+				{
 					borderRadius: size + 20,
 					borderColor: borderColor,
 					borderWidth: borderColor ? 1 : 0,
 					backgroundColor: bgColor ? bgColor : 'transparent',
+					alignItems: 'center',
+					justifyContent: 'center',
 				},
-				[(styles.container, style, elevateStyle)])
-			}>
+				styles.container,
+				style,
+				elevateStyle,
+			]}>
 			<Touch
 				disabled={disabled}
 				onTouch={onTouch} //{changeIconHandler}

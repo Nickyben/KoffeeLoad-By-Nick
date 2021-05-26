@@ -16,7 +16,7 @@ import MyBtn from '../../components/UI/MyBtn';
 import TopRecentCoffees from '../../components/shopComponents/TopRecentCoffees';
 import Touch from '../../components/UI/Touch';
 
-const CartScreen = ({navigation}) => {
+const CartScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	//const [error, setError] = useState()
 	const cartTotalAmt = useSelector((state) => state.cartRed.totalAmount);
@@ -24,12 +24,13 @@ const CartScreen = ({navigation}) => {
 		const cartItemsArray = [];
 		for (const key in state.cartRed.items) {
 			cartItemsArray.push({
-				productId: key,
+				id: key,
 				quantity: state.cartRed.items[key].quantity,
-				productPrice: state.cartRed.items[key].productPrice,
-				productTitle: state.cartRed.items[key].productTitle,
-				productSum: state.cartRed.items[key].productSum,
-				productPushToken: state.cartRed.items[key].pushToken, //*productPushToken
+				price: state.cartRed.items[key].price,
+				title: state.cartRed.items[key].title,
+				sum: state.cartRed.items[key].sum,
+				pushToken: state.cartRed.items[key].pushToken,
+				image: state.cartRed.items[key].image, //*productPushToken
 			});
 		}
 		return cartItemsArray.sort((a, b) => (a.productId > b.productId ? 1 : -1));
@@ -40,11 +41,11 @@ const CartScreen = ({navigation}) => {
 	const sendOrderHandler = async () => {
 		setIsLoading(true);
 		await dispatch(ordersActions.addOrder(cartItemsArr, Math.round(cartTotalAmt.toFixed(2) * 100) / 100));
-		console.log('dispatched order with cartItems');
+		//console.log('dispatched order with cartItems');
 		setIsLoading(false);
 	};
-	const shopCoffees = useSelector((state) => state.productsRed.availableProducts).filter((coffee,index)=>(index===0 || index===3));
-	const arrangeRow = { flexDirection: 'row', alignItems: 'center',  };
+	
+	const arrangeRow = { flexDirection: 'row', alignItems: 'center' };
 	return (
 		<View style={styles.screen}>
 			<View style={styles.welcomeRow}>
@@ -60,11 +61,18 @@ const CartScreen = ({navigation}) => {
 					maxWidth: 500,
 					alignSelf: 'center',
 				}}>
-				{shopCoffees.map(({ id, title, image, price }, index) => {
+				{cartItemsArr.map((cartItem, index) => {
+					const { id, title, image, price, quantity, sum } = cartItem;
 					return (
 						<View
 							key={id}
-							style={{ padding: 20, backgroundColor: '#E4D4C8', borderRadius: 15, marginBottom: 10 }}>
+							style={{
+								padding: 20,
+								paddingVertical: 15,
+								backgroundColor: '#E4D4C8',
+								borderRadius: 15,
+								marginBottom: 10,
+							}}>
 							<View
 								style={{
 									flexDirection: 'row',
@@ -83,37 +91,95 @@ const CartScreen = ({navigation}) => {
 								</Touch>
 								<View style={{ padding: 15 }}>
 									<Text style={[styles.cartText, { fontSize: 18, marginBottom: 15 }]}>{title}</Text>
-									<Text style={styles.cartText}>£{price}</Text>
+									<Text style={styles.cartText}>£{price.toFixed(2)}</Text>
 								</View>
 							</View>
-							<View style={[arrangeRow]}>
+							<View style={[arrangeRow, { justifyContent: 'space-between', marginTop: 10 }]}>
 								<View style={[arrangeRow]}>
 									{['heart-empty', 'trash'].map((name, index) => {
-										return <TouchIcon key={index} useIosIcon name={name} size={23} />;
+										return (
+											<TouchIcon
+												key={index}
+												useIosIcon
+												name={name}
+												size={23}
+												onTouch={
+													name === 'trash'
+														? () => {
+																dispatch(cartActions.totallyDeleteFromCart(id));
+														  }
+														: () => {}
+												}
+											/>
+										);
 									})}
-									<Text style={styles.cartText}>Remove</Text>
+									<Text
+										style={styles.cartText}
+										onPress={() => {
+											dispatch(cartActions.totallyDeleteFromCart(id));
+										}}>
+										Remove
+									</Text>
 								</View>
-								<View style={[arrangeRow]}></View>
+								<View style={[arrangeRow]}>
+									<TouchIcon
+										bgColor={Colors.btn}
+										color={'#fff'}
+										useIosIcon
+										name={'remove'}
+										size={12}
+										onTouch={() => {
+											dispatch(cartActions.removeFromCart(id));
+										}}
+									/>
+
+									<Text
+										style={[
+											{
+												backgroundColor: '#fff',
+												borderRadius: 5,
+												padding: 5,
+												paddingHorizontal: 10,
+												marginLeft: 5,
+												marginRight: 5,
+											},
+										]}>
+										{quantity}
+									</Text>
+									<TouchIcon
+										bgColor={Colors.btn}
+										color={'#fff'}
+										useIosIcon
+										name={'add'}
+										size={12}
+										onTouch={() => {
+											dispatch(cartActions.addToCart(cartItem));
+										}}
+									/>
+								</View>
 							</View>
 						</View>
 					);
 				})}
 
-				<View style={[arrangeRow, {  justifyContent: 'space-between' ,}]}>
+				<View style={[arrangeRow, { justifyContent: 'space-between' }]}>
 					<Text style={[styles.cartText, { fontSize: 14 }]}>Total</Text>
-					<Text style={[styles.cartText, { fontSize: 14 }]}>
-						£{cartTotalAmt ? Math.round(cartTotalAmt.toFixed(2) * 100) / 100 : '40.00'}
-					</Text>
+					<Text style={[styles.cartText, { fontSize: 14 }]}>£{cartTotalAmt.toFixed(2)}</Text>
 				</View>
 				<View style={[styles.action, { marginBottom: 15 }]}>
 					{isLoading ? (
 						<ActivityIndicator size="large" color={Colors.primary} />
 					) : (
-						<MyBtn title={'Complete Your Order'} bgColor={Colors.btn} textColor={'#fff'} />
+						<MyBtn
+							disabled={isDisabled}
+							title={'Complete Your Order'}
+							bgColor={Colors.btn}
+							textColor={'#fff'}
+						/>
 					)}
 				</View>
+					<TopRecentCoffees />
 
-				<TopRecentCoffees />
 				{/* <FlatList
 						data={cartItemsArr}
 						horizontal={true}

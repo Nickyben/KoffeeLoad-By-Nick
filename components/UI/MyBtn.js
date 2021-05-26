@@ -23,28 +23,29 @@ const MyBtn = ({
 	children,
 	bgColor,
 	textColor,
-  horizPadding,
-  padding,
+	horizPadding,
+	padding,
 	borderColor,
 	icon,
-  fontFamily,
+	fontFamily,
 	innerStyle,
 	fontSize,
 }) => {
 	return (
 		<Touch
-		onTouch={onPress}
+			onTouch={onPress}
+			disabled={disabled}
 			style={{
 				width: '100%',
 				alignItems: 'center',
 				backgroundColor: bgColor ? bgColor : 'white',
-				padding:padding?padding: 10,
+				padding: padding ? padding : 10,
 				borderRadius: 7,
 				paddingHorizontal: horizPadding ? horizPadding : 20,
 			}}>
 			<Text
 				style={{
-					fontFamily:fontFamily?fontFamily :'OpenSansBold',
+					fontFamily: fontFamily ? fontFamily : 'OpenSansBold',
 					fontSize: fontSize ? fontSize : 14,
 					color: textColor ? textColor : '#222',
 				}}>

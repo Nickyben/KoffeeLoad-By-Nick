@@ -15,7 +15,6 @@ export const setDidTryAutoLogin = () => {
 };
 
 export const authenticate = (idToken, userId, expiryTime, userAppData) => {
-	console.log('authenticate--', userAppData);
 	const { userEmail, userName, signupDate, signupId } = userAppData;
 	return (dispatch) => {
 		dispatch(setLogoutTimer(expiryTime));
@@ -200,7 +199,6 @@ const fetchUserAppData = async (userId) => {
 
 		let userAppData;
 		for (const key in responseData) {
-			console.log('name is: ', key, 'obj is: ', responseData);
 			const itemObj = responseData[key];
 			userAppData = {
 				signupId: itemObj.signupId,
@@ -209,7 +207,6 @@ const fetchUserAppData = async (userId) => {
 				signupDate: new Date(itemObj.signupDate),
 			};
 		}
-		console.log({ userAppData, responseData });
 		return userAppData;
 	} catch (err) {
 		//send to custom analytics server
@@ -248,6 +245,5 @@ const uploadUserAppData = async (userName, userEmail, idToken, userId) => {
 		userEmail,
 		signupDate: date,
 	};
-	console.log({ userAppData, responseData });
 	return userAppData;
 };

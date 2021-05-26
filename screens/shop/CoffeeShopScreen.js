@@ -67,24 +67,9 @@ const CoffeeShopScreen = ({ props, navigation }) => {
 	// 	[dispatch, loadProducts]
 	// );
 
-	const selectItemHandler = (id, title) => {
-		navigation.navigate({
-			name: 'ProductDetail',
-			params: {
-				productId: id,
-				productTitle: title,
-			},
-		});
-	};
+	
 
-	const checkCartHandler = () => {
-		navigation.navigate({
-			name: 'Cart',
-			params: {
-				source: 'Shop',
-			},
-		});
-	};
+	
 	const loadSearchesHandler = (text) => {};
 
 	const renderItem = (
@@ -201,7 +186,7 @@ export const screenOptions = ({ navigation }) => {
 		},
 		headerLeft: (props) => (
 			<HeaderButtons HeaderButtonComponent={HeaderBtn}>
-				<Item tile="arrowLeft" iconName={leftArrow} onPress={checkCartHandler} />
+				<Item tile="arrowLeft" iconName={leftArrow} onPress={()=>{navigation.goBack()}} />
 			</HeaderButtons>
 		),
 		headerRight: (props) => (
@@ -209,12 +194,8 @@ export const screenOptions = ({ navigation }) => {
 				<Item
 					tile="Cart"
 					iconName={cartIcon}
-					onPress={() => {
-						navigation.navigate({
-							name: 'Cart',
-							params: {},
-						});
-					}}
+					onPress={checkCartHandler
+					}
 				/>
 			</HeaderButtons>
 		),

@@ -9,32 +9,32 @@ import {
 	TouchableOpacity,
 	TouchableNativeFeedback,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import Btn from '../../components/UI/Btn';
 
 import Colors from '../../constants/Colors';
+import { addToCart } from '../../store/actions/cartAction';
 import MyBtn from '../UI/MyBtn';
 import TouchCard from '../UI/TouchCard';
 
-const CoffeeItem = ({
-	content: { id, ownerId, devicePushToken, title, image, description, price },
-	category,width,flex,backgroundColor,
-	onSelect,
-}) => {
-	let titleStyle = styles.title ;
+const CoffeeItem = ({ content, category, width, flex, backgroundColor, onAddToCart, onSelect }) => {
+	const dispatch = useDispatch();
+	const { id, ownerId, devicePushToken, title, image, description, price } = content;
+	let titleStyle = styles.title;
 
 	return (
 		<TouchCard useIos onTouch={onSelect} style={styles.itemCard}>
 			<View style={styles.itemMargin}>
 				<View
 					style={{
-						flex:flex?flex: 1,
-						width:width?width: '100%',
+						flex: flex ? flex : 1,
+						width: width ? width : '100%',
 						//height: '100%',
 						alignItems: 'center',
 						justifyContent: 'center',
 						paddingBottom: 10,
-						backgroundColor:backgroundColor?backgroundColor: '#E4D4C8',
+						backgroundColor: backgroundColor ? backgroundColor : '#E4D4C8',
 						borderRadius: 10,
 					}}>
 					<View style={styles.imageContainer}>
@@ -51,7 +51,7 @@ const CoffeeItem = ({
 							{price && (
 								<Text style={styles.title2} numberOfLines={2}>
 									{'£'}
-									{price}
+									{price.toFixed(2)}
 								</Text>
 							)}
 						</View>
@@ -65,7 +65,13 @@ const CoffeeItem = ({
 							style={styles.btn}
 							bgColor={Colors.btn}
 							borderColor={Colors.primary}
-							onPress={onSelect}
+							onPress={
+								onAddToCart
+									? onAddToCart
+									: () => {
+											dispatch(addToCart(content));
+									  }
+							}
 							textColor={Colors.primary}
 						/>
 					</View>
@@ -87,15 +93,12 @@ const styles = StyleSheet.create({
 		width: '100%',
 		//height: '100%',
 		paddingHorizontal: 5,
-
 	},
-	itemContainer: {
-	
-	},
+	itemContainer: {},
 	imageContainer: {
 		//aspectRatio: 9/7,
 		width: '100%',
-	
+
 		padding: 5,
 		paddingVertical: 10,
 		paddingBottom: 0,
@@ -111,9 +114,9 @@ const styles = StyleSheet.create({
 		width: '100%',
 		maxWidth: 150,
 		alignItems: 'center',
-		padding: 5,
+		padding: 10,
 		paddingHorizontal: 0,
-		paddingTop:0,
+		paddingTop: 0,
 	},
 	listImage: {
 		minWidth: 90, //please please, set these with respect to window size

@@ -7,6 +7,7 @@ import * as cartActions from '../../store/actions/cartAction';
 import TopRecentCoffees from '../../components/shopComponents/TopRecentCoffees';
 import ChatInput from '../../components/UI/ChatInput';
 import MyBtn from '../../components/UI/MyBtn';
+import TouchIcon from '../../components/UI/TouchIcon';
 
 const CoffeeDetailScreen = ({ route }) => {
 	const prodId = route.params.itemId;
@@ -48,17 +49,28 @@ const CoffeeDetailScreen = ({ route }) => {
 				<View style={styles.row}>
 					<Text style={styles.description}>{description}</Text>
 					<Text style={styles.id}>SKU: {id}</Text>
-					<Text style={styles.price}>£{price}</Text>
+					<Text style={styles.price}>£{price.toFixed(2)}</Text>
 				</View>
 				<View style={styles.actions}>
-					<View></View>
-					<View style={styles.action}>
+					<View style={[{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius:5, padding:7, paddingHorizontal:12}]}>
+						<TouchIcon
+							color={'#222'}
+							useIosIcon
+							name={'arrow-down'}
+							size={23}
+							onTouch={() => {
+							}}
+						/>
+						<Text style={[styles.price,{fontSize:18}]}>1</Text>
+					</View>
+					<View style={[styles.action,{}]}>
 						<MyBtn
 							padding={15}
 							bgColor={Colors.btn}
 							textColor={'white'}
 							title="Add To Cart"
 							onPress={() => {
+								//this btn is wrongly clicked from navigating screen. please report or update
 								dispatch(cartActions.addToCart(selectedProduct));
 							}}
 						/>
@@ -148,7 +160,7 @@ const styles = StyleSheet.create({
 	},
 	id: { marginTop: 10, fontFamily: 'OpenSansBold', fontSize: 12 },
 	actions: {
-        flexDirection: 'row',
+		flexDirection: 'row',
 		marginVertical: 10,
 		alignItems: 'center',
 	},
@@ -157,9 +169,8 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	action: {
-		
 		marginTop: 0,
-		paddingHorizontal: 30,
+		marginLeft: 15,
 	},
 });
 
